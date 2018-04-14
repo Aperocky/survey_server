@@ -1,0 +1,3 @@
+Deny from all
+DirectoryIndex welcome.php
+Options -Indexes
