@@ -32,26 +32,25 @@ class Question{
     $this->choicelist = $choicelist;
   }
 
-  # Set up base survey database for this particular survey, if this is the first question in the list.
-  public function setup(){
-    global $db;
-    if($index === 1){
-      $sql = "CREATE TABLE " . $db->real_escape_string($survey) . " (";
-      $sql .= "id INT NOT NULL AUTO_INCREMENT, ";
-      $sql .= "question TEXT, ";
-      $sql .= "type INT, ";
-      $sql .= "numquestion INT, ";
-      $sql .= "mc1 VARCHAR(255), ";
-      $sql .= "mc2 VARCHAR(255), ";
-      $sql .= "mc3 VARCHAR(255), ";
-      $sql .= "mc4 VARCHAR(255), ";
-      $sql .= "mc5 VARCHAR(255), ";
-      $sql .= "mc6 VARCHAR(255), ";
-      $sql .= "PRIMARY KEY (id)) ";
-      $result = $db->query($sql);
-      return $result;
-    }
-  }
+  // Set up base survey database for this particular survey, if this is the first question in the list.
+  // Migrated to buildsurvey
+  // function setup(){
+  //   global $db;
+  //   $sql = "CREATE TABLE " . $db->real_escape_string($survey) . " (";
+  //   $sql .= "id INT NOT NULL AUTO_INCREMENT, ";
+  //   $sql .= "question TEXT, ";
+  //   $sql .= "type INT, ";
+  //   $sql .= "numquestion INT, ";
+  //   $sql .= "mc1 VARCHAR(255), ";
+  //   $sql .= "mc2 VARCHAR(255), ";
+  //   $sql .= "mc3 VARCHAR(255), ";
+  //   $sql .= "mc4 VARCHAR(255), ";
+  //   $sql .= "mc5 VARCHAR(255), ";
+  //   $sql .= "mc6 VARCHAR(255), ";
+  //   $sql .= "PRIMARY KEY (id)) ";
+  //   $result = $db->query($sql);
+  //   return $result;
+  // }
 
   // Store the question in a safe place
   public function store(){

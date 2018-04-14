@@ -11,6 +11,7 @@ if(is_post_request()){
     $survey_err = "Please enter a meaningful name longer than 10 letters.";
   } else {
     $survey_name = trim($_POST["survey_name"]);
+    $survey_name = preg_replace('/\s+/', '', $survey_name);
     $sql = "SELECT id FROM survey WHERE survey_name = ?";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("s", $survey_name);
@@ -34,6 +35,26 @@ if(is_post_request()){
     $describe_err = "Please give some more detail.";
   } else {
     $describe = trim($_POST["description"]);
+  }
+
+  // Set up base survey database for this particular survey, if this is the first question in the list.
+  function setup(){
+    global $db;
+    global $survey;
+    $sql = "CREATE TABLE " . $db->real_escape_string($survey) . " (";
+    $sql .= "id INT NOT NULL AUTO_INCREMENT, ";
+    $sql .= "question TEXT, ";
+    $sql .= "type INT, ";
+    $sql .= "numquestion INT, ";
+    $sql .= "mc1 VARCHAR(255), ";
+    $sql .= "mc2 VARCHAR(255), ";
+    $sql .= "mc3 VARCHAR(255), ";
+    $sql .= "mc4 VARCHAR(255), ";
+    $sql .= "mc5 VARCHAR(255), ";
+    $sql .= "mc6 VARCHAR(255), ";
+    $sql .= "PRIMARY KEY (id)) ";
+    $result = $db->query($sql);
+    return $result;
   }
 
   # Ready to enter into database
