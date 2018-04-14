@@ -90,7 +90,7 @@ if(isset($_GET['logout'])){
                   <img src='_image/data.jpg' width=100%/>
                 </div>
                 <p class="panel-body">
-                  Manage all of your survey in a dashboard! Manage the health and potentially edit the survey questions. Download all data in csv form.
+                  Manage all of your survey in a dashboard! Finish unfinished surveys and potentially edit the survey questions. Download all data in csv form.
                 </p>
                 <a class="btn btn-primary" href="dashboard.php"> Manage </a>
               </div>

@@ -31,13 +31,14 @@ if(is_post_request()){
   // Verify the description / purpose
   if(empty(trim($_POST["description"]))){
     $describe_err = "Please describe the purpose of this survey";
-  } elseif(strlen(trim($_POST["description"])) < 60){
+  } elseif(strlen(trim($_POST["description"])) < 30){
     $describe_err = "Please give some more detail.";
   } else {
     $describe = trim($_POST["description"]);
   }
 
   // Set up base survey database for this particular survey, if this is the first question in the list.
+  // If type INT == 0, this signify this question should no longer be used.
   function setup(){
     global $db;
     global $survey;
@@ -63,7 +64,9 @@ if(is_post_request()){
     $stmt = $db->prepare($sql);
     $stmt->bind_param("sss", $survey, $username, $describe);
     if($stmt->execute()){
-      redirect_to('buildquestions.php');
+      setup();
+      $_SESSION['survey'] = $survey;
+      redirect_to('buildquestions.php?question=1');
     } else {
       echo "Something is wrong, please call Rocky to fix this.";
     }
