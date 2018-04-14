@@ -1,20 +1,20 @@
 <?php
-// require_once('_php/init.php');
-// session_start();
-// if(isset($_SESSION['username'])){
-//   // echo var_dump($_SESSION);
-//   // echo 'userhere';
-//   $username = $_SESSION['username'];
+require_once('_php/init.php');
+session_start();
+if(isset($_SESSION['username'])){
+  // echo var_dump($_SESSION);
+  // echo 'userhere';
+  $username = $_SESSION['username']; }
 // } else {
 //   // echo 'whatdafuck';
 //   redirect_to('login.php');
 // }
-// if(isset($_GET['logout'])){
-//   $_SESSION = array();
-//   session_destroy();
-//   redirect_to('login.php');
-// }
-require_once('_php/userinit.php')
+if(isset($_GET['logout'])){
+  $_SESSION = array();
+  session_destroy();
+  // redirect_to('login.php');
+}
+// require_once('_php/userinit.php')
 ?>
 
 <!DOCTYPE html>
@@ -22,13 +22,14 @@ require_once('_php/userinit.php')
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
+    <link rel="shortcut icon" type="image/x-icon" href="hal.ico" />
     <link rel="stylesheet" href="bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style type="text/css">
         body{ font: 14px sans-serif; }
-        .wrapper{ width: 960px; padding: 20px; margin: auto; background-color: #eee;}
-        .container{ width: 900px; margin: auto;}
+        .wrapper{ width: 80%; padding: 20px; margin: auto; background-color: #eee;}
+        .container{ width: 95%; margin: auto;}
         .col-centered{ float: none; margin: 0 auto;}
         .emptyspace{ height: 100px;}
     </style>
@@ -46,10 +47,20 @@ require_once('_php/userinit.php')
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="navbar-text">
-              Logged in as <?php echo htmlspecialchars($username); ?>
+              <?php
+                if(isset($username)){
+                  echo "logged in as " . htmlspecialchars($username);
+                  $logstr = "welcome.php?logout=1";
+                  $button = "Log Out";
+                } else {
+                  echo "you are not logged in";
+                  $logstr = "login.php";
+                  $button = "Login";
+                }
+               ?>
             </li>
             <li class="log_out active">
-              <a href="welcome.php?logout=1">Log Out</a>
+              <a href="<?php echo $logstr; ?>"><?php echo $button; ?></a>
             </li>
           </ul>
         </div>
@@ -57,7 +68,7 @@ require_once('_php/userinit.php')
       <!-- Content here -->
       <div class="container">
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-sm-6">
             <div class="panel panel-default">
               <div class="panel-body">
                 <h4 class="panel-heading"> Build Survey </h4>
@@ -71,7 +82,7 @@ require_once('_php/userinit.php')
               </div>
             </div>
           </div>
-          <div class="col-xs-6">
+          <div class="col-sm-6">
             <div class="panel panel-default">
               <div class="panel-body">
                 <h4 class="panel-heading"> Manage Surveys </h4>
@@ -89,16 +100,16 @@ require_once('_php/userinit.php')
       </div>
       <!-- Footer comes next -->
       <footer class="page-footer">
-        <div class="emptyspace">
-
-        </div>
-        <div class="footer-copyright text-center">
-            © 2018 HAL:
-            <a href="https://hal.pratt.duke.edu"> HAL Lab </a>
-        </div>
-        <div class="footer-copyright text-center">
-            Creator:
-            <a href="https://www.aperocky.com"> Rocky Li </a>
+        <div class="emptyspace"></div>
+        <div class="row">
+          <div class="footer-copyright text-center col-xs-6">
+              © 2018 HAL:
+              <a href="https://hal.pratt.duke.edu"> HAL Lab </a>
+          </div>
+          <div class="footer-copyright text-center col-xs-6">
+              Creator:
+              <a href="https://www.aperocky.com"> Rocky Li </a>
+          </div>
         </div>
       </footer>
     </div>
