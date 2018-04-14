@@ -1,2 +1,3 @@
+AllowOverride All
 DirectoryIndex welcome.php
 Options -Indexes
