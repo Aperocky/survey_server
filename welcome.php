@@ -1,6 +1,11 @@
 <?php
 require_once('_php/init.php');
 session_start();
+if(isset($_GET['logout'])){
+  $_SESSION = array();
+  session_destroy();
+  // redirect_to('login.php');
+}
 if(isset($_SESSION['username'])){
   // echo var_dump($_SESSION);
   // echo 'userhere';
@@ -9,11 +14,6 @@ if(isset($_SESSION['username'])){
 //   // echo 'whatdafuck';
 //   redirect_to('login.php');
 // }
-if(isset($_GET['logout'])){
-  $_SESSION = array();
-  session_destroy();
-  // redirect_to('login.php');
-}
 // require_once('_php/userinit.php')
 ?>
 
