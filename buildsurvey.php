@@ -101,6 +101,7 @@ if(is_post_request()){
             <a class="navbar-brand" href="#">HAL Surveyor</a>
           </div>
           <ul class="nav navbar-nav">
+            <li class="active"><a href="welcome.php">Home</a></li>
             <li class="active"><a href="#">Survey Builder</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

@@ -21,7 +21,7 @@ if(isset($_GET['logout'])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>HAL Surveyor</title>
     <link rel="shortcut icon" type="image/x-icon" href="hal.ico" />
     <link rel="stylesheet" href="bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

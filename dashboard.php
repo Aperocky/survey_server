@@ -9,7 +9,7 @@ $stmt = $db->prepare($sql);
 $stmt->bind_param("s", $username);
 if($stmt->execute()){
   $result = $stmt->get_result();
-  echo var_dump($result);
+  // echo var_dump($result);
 } else {
   exit("Problem detected");
 }
@@ -21,7 +21,7 @@ $replies = 0;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Build New Survey</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="bootstrap.css">
     <link rel="shortcut icon" type="image/x-icon" href="hal.ico" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -43,12 +43,10 @@ $replies = 0;
             <a class="navbar-brand" href="#">HAL Surveyor</a>
           </div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">DASHBOARD</a></li>
+            <li class="active"><a href="welcome.php">Home</a></li>
+            <li class="active"><a href="#">DASHBOARD : <?php echo htmlspecialchars($username); ?></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="navbar-text">
-              Logged in as <?php echo htmlspecialchars($username); ?>
-            </li>
             <li class="log_out active">
               <a href="welcome.php?logout=1">Log Out</a>
             </li>
@@ -56,26 +54,27 @@ $replies = 0;
         </div>
       </nav>
       <div class="dash">
+        <h3 class="text-center"> List of your surveys </h3>
         <?php while($row = $result->fetch_array()){ ?>
           <div class="panel">
             <div class="panel-body">
               <div class="container">
                 <div class="row">
                   <div class="col-xs-3">
-                    <h5><?php echo $row['long_name'] ?></h5>
+                    <h5><b><?php echo $row['long_name'] ?></b></h5>
                   </div>
                   <div class="col-xs-2">
-                      <?php echo ($row['status'])? "Completed": "In Progress"; ?>
+                    <h5><?php echo ($row['status'])? "Completed": "In Progress"; ?></h5>
                   </div>
                   <div class="col-xs-2">
-                    <p>
+                    <h5>
                       <?php echo '#Question: '; ?>
-                    </p>
+                    </h5>
                   </div>
                   <div class="col-xs-3">
-                    <p>
+                    <h5>
                       <?php echo '#Submissions: ';?>
-                    </p>
+                    </h5>
                   </div>
                   <div class="col-xs-1">
                     <a href="buildquestions.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default">Edit</a>
@@ -89,3 +88,19 @@ $replies = 0;
           </div>
         <?php } ?>
       </div>
+      <footer class="page-footer">
+        <div class="emptyspace"></div>
+        <div class="row">
+          <div class="footer-copyright text-center col-xs-6">
+              © 2018 HAL:
+              <a href="https://hal.pratt.duke.edu"> HAL Lab </a>
+          </div>
+          <div class="footer-copyright text-center col-xs-6">
+              Creator:
+              <a href="https://www.aperocky.com"> Rocky Li </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+</body>
+</html>

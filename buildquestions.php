@@ -104,8 +104,9 @@ if(!$new_question){
             <a class="navbar-brand" href="#">HAL Surveyor</a>
           </div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Build Question <?php echo $question_index; ?></a></li>
+            <li class="active"><a href="welcome.php">Home</a></li>
             <li class="active"><a href="#"><?php echo $survey_long; ?></a></li>
+            <li class="active"><a href="#">Question <?php echo $question_index; ?></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="navbar-text">
