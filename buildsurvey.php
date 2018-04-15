@@ -3,15 +3,14 @@ require_once('_php/userinit.php');
 $survey = $describe = "";
 $survey_err = $describe_err = "";
 if(is_post_request()){
-
   // Verify if survey name has been taken
   if(empty(trim($_POST["survey_name"]))){
     $survey_err = "Please enter a survey name.";
   } elseif(strlen(trim($_POST["survey_name"])) < 10) {
     $survey_err = "Please enter a meaningful name longer than 10 letters.";
   } else {
-    $survey_name = trim($_POST["survey_name"]);
-    $survey_name = preg_replace('/\s+/', '', $survey_name);
+    $survey_long = trim($_POST["survey_name"]);
+    $survey_name = preg_replace('/\s+/', '', $survey_long);
     $sql = "SELECT id FROM survey WHERE survey_name = ?";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("s", $survey_name);
@@ -60,12 +59,13 @@ if(is_post_request()){
 
   # Ready to enter into database
   if(empty($survey_err) && empty($describe_err)){
-    $sql = "INSERT INTO survey (survey_name, username, description) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO survey (survey_name, username, description, long_name) VALUES (?, ?, ?, ?)";
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("sss", $survey, $username, $describe);
+    $stmt->bind_param("ssss", $survey, $username, $describe, $survey_long);
     if($stmt->execute()){
       setup();
       $_SESSION['survey'] = $survey;
+      $_SESSION['survey_long'] = $survey_long;
       redirect_to('buildquestions.php?question=1');
     } else {
       echo "Something is wrong, please call Rocky to fix this.";
