@@ -1,4 +1,44 @@
 <?php
+// Build a Question object from a single line of mysql query.
+function qfromfetch($row){
+  $mc = array($row['mc1'], $row['mc2'], $row['mc3'], $row['mc4'], $row['mc5'], $row['mc6']);
+  $curr_question = new Question($_SESSION['survey'], $row['id'], $row['type'], $row['question'], $row['numquestion'], $mc);
+  return $curr_question;
+}
+
+// Create a result table containing the rows
+function create_result_table(){
+  global $db;
+  global $survey;
+  $survey_result = $survey . "_result";
+  // If table is created, drop it.
+  $sql = "SHOW TABLES LIKE '" . $db->real_escape_string($survey_result) . "'";
+  if($result=$db->query($sql)){
+    echo var_dump($result);
+    if($result->num_rows == 1){
+      echo "detect and drop";
+      $sql = "DROP TABLE " . $db->real_escape_string($survey_result);
+      $result = $db->query($sql);
+      if(!$result){
+        echo("Something is wrong, please call for help");
+      }
+    } else {
+      echo "not detected";
+    }
+  }
+  // Creates table.
+  $sql = "CREATE TABLE " . $db->real_escape_string($survey_result) . " (";
+  $sql .= "id INT NOT NULL AUTO_INCREMENT, ";
+  $total_question = checklines();
+  for($x = 1; $x <= $total_question; $x++){
+    $sql .= "Q" . strval($x) . " VARCHAR(255), ";
+  }
+  $sql .= "PRIMARY KEY (id)) ";
+  $result = $db->query($sql);
+  if(!$result){
+    echo("Something is wrong, please call Rocky for help");
+  }
+}
 
 class Question{
 
@@ -84,8 +124,77 @@ class Question{
     $stmt->bind_param("siissssssi", $this->question, $this->type, $this->num, $mc[0], $mc[1], $mc[2], $mc[3], $mc[4], $mc[5], $this->index);
     $stmt->execute();
   }
+
+  public function display(){ ?>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p>
+          <?php echo $this->index . ". " . $this->question; ?>
+        </p>
+        <?php if($this->type == 3){ ?>
+          <div class="form-group">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="<?php echo $this->index; ?>choice[]" value="A">
+              <label class="form-check-label"><?php echo $this->choicelist[0]; ?></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="<?php echo $this->index; ?>choice[]" value="B">
+              <label class="form-check-label"><?php echo $this->choicelist[1]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 3)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="checkbox" name="<?php echo $this->index; ?>choice[]" value="C">
+              <label class="form-check-label"><?php echo $this->choicelist[2]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 4)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="checkbox" name="<?php echo $this->index; ?>choice[]" value="D">
+              <label class="form-check-label"><?php echo $this->choicelist[3]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 5)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="checkbox" name="<?php echo $this->index; ?>choice[]" value="E">
+              <label class="form-check-label"><?php echo $this->choicelist[4]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 6)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="checkbox" name="<?php echo $this->index; ?>choice[]" value="F">
+              <label class="form-check-label"><?php echo $this->choicelist[5]; ?></label>
+            </div>
+          </div>
+        <?php } elseif ($this->type == 1) { ?>
+          <div class="form-group">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="A">
+              <label class="form-check-label"><?php echo $this->choicelist[0]; ?></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="B">
+              <label class="form-check-label"><?php echo $this->choicelist[1]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 3)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="C">
+              <label class="form-check-label"><?php echo $this->choicelist[2]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 4)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="D">
+              <label class="form-check-label"><?php echo $this->choicelist[3]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 5)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="E">
+              <label class="form-check-label"><?php echo $this->choicelist[4]; ?></label>
+            </div>
+            <div class="form-check form-check-inline" <?php echo ($this->num < 6)? "style='display:none;'":''; ?>>
+              <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="F">
+              <label class="form-check-label"><?php echo $this->choicelist[5]; ?></label>
+            </div>
+          </div>
+        <?php } else { ?>
+          <div class="form-group">
+            <label>Answer</label>
+            <textarea class="form-control" rows="3" name="<?php echo $this->index; ?>answer"></textarea>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+
+
+  <?php }
 }
-
-
-
 ?>

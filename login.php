@@ -37,7 +37,7 @@
           $stmt->bind_param('s', $username);
           if($stmt->execute()){
             $stmt->store_result();
-            echo var_dump($stmt);
+            // echo var_dump($stmt);
             if($stmt->num_rows == 1){
               $stmt->bind_result($my_username, $hashed_password);
               $stmt->fetch();

@@ -29,13 +29,14 @@ try{
 }
 $mc = array($mc1, $mc2, $mc3, $mc4, $mc5, $mc6);
 $curr_question = new Question($survey, $index, $type, $question, $numquestion, $mc);
-if(isset($_POST['edit'])){
+if($_POST['edit']==1){
   $curr_question->update();
 } else {
   $curr_question->store();
 }
 // $curr_question->store();
 $nextindex = $index + 1;
+create_result_table();
 if(!isset($_POST['final'])){
   redirect_to("buildquestions.php?question=$nextindex");
 } else {
@@ -44,6 +45,7 @@ if(!isset($_POST['final'])){
   $stmt = $db->prepare($sql);
   $stmt->bind_param("s", $survey);
   $stmt->execute();
+  create_result_table();
   redirect_to("dashboard.php");
 }
 

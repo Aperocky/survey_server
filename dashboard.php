@@ -56,7 +56,10 @@ $replies = 0;
       </nav>
       <div class="dash">
         <h3 class="text-center"> List of your surveys </h3>
-        <?php while($row = $result->fetch_array()){ ?>
+        <?php while($row = $result->fetch_array()){
+          $numquestion = count_row($row['survey_name']);
+          $survey_result = $row['survey_name'] . "_result";
+          $submissions = count_row($survey_result); ?>
           <div class="panel">
             <div class="panel-body">
               <div class="container">
@@ -65,23 +68,23 @@ $replies = 0;
                     <h5><b><?php echo $row['long_name'] ?></b></h5>
                   </div>
                   <div class="col-xs-2">
-                    <h5><?php echo ($row['status'])? "Completed": "In Progress"; ?></h5>
+                    <h5 <?php echo ($row['status'])?"style='color:green'":"style='color:red'" ?>><?php echo ($row['status'])? "Completed": "In Progress"; ?></h5>
                   </div>
                   <div class="col-xs-2">
                     <h5>
-                      <?php echo '#Question: '; ?>
+                      <?php echo '#Question: ' . $numquestion; ?>
                     </h5>
                   </div>
                   <div class="col-xs-3">
                     <h5>
-                      <?php echo '#Submissions: ';?>
+                      <?php echo '#Submissions: ' . $submissions;?>
                     </h5>
                   </div>
                   <div class="col-xs-1">
                     <a href="buildquestions.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default">Edit</a>
                   </div>
                   <div class="col-xs-1">
-                    <a href="display?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default">View</a>
+                    <a href="display.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default">View</a>
                   </div>
                 </div>
               </div>

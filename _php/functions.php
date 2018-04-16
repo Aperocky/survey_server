@@ -2,39 +2,14 @@
 
 // ------------------ DATABASE QUERY FUNCTIONS ----------------------
 
-  // This function insert a regular entree into time_stamps table.
-  function insert_subject($subject, $object) {
+  // This function finds the number of rows in a databse.
+  function count_row($table){
     global $db;
-
-    $sql = "INSERT INTO ". CURR_TABLE;
-    $sql .= " (time, device, payload, picture_location) ";
-    $sql .= "VALUES (";
-    $sql .= "'" . $subject['time'] . "',";
-    $sql .= "'" . $subject['device'] . "',";
-    $sql .= "'" . $subject['payload'] . "'";
-    if ($object !== 0){
-      $sql .= ",'". mysqli_real_escape_string($db, $object) ."'";
-    } else {
-      $sql .= ",'NULL'";
-    }
-    $sql .= ")";
-    $result = mysqli_query($db, $sql);
-    // if ($object !== 0){
-    //   $sql = "INSERT INTO ". CURR_TABLE;
-    //   $sql .= " (picture) ";
-    //   $sql .= "VALUES (";
-    //   $sql .= "'" . mysqli_real_escape_string($db, $object) . "'";
-    //   $sql .= ")";
-    //   $result = mysqli_query($db, $sql);
-    // }
-    // return $sql;
-    if($result) {
-      return $sql;
-    } else {
-      $error = mysqli_error($db);
-      db_close($db);
-      return $error;
-    }
+    $sql = "SELECT COUNT(1) FROM " . $db->real_escape_string($table);
+    $res = $db->query($sql);
+    $rows = $res->fetch_array();
+    $total = $rows[0];
+    return $total;
   }
 
   // Get the last row of the database

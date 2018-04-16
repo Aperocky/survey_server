@@ -222,10 +222,11 @@ if(!$new_question){
             </div>
           </div>
           <input type="hidden" type="text" name="index" value="<?php echo $question_index; ?>">
+          <input type="hidden" type="text" name="edit" value="<?php echo ($new_question)?'0':'1'; ?>">
         </div>
         <div>
           <button type="submit" class="btn btn-primary" <?php echo ($new_question)? '':"style='display:none;'"; ?>>Submit</button>
-          <input type="submit" class="btn btn-primary" name="edit" value="Edit" <?php echo ($new_question)? "style='display:none;'":''; ?>/>
+          <button type="submit" class="btn btn-primary" <?php echo ($new_question)? "style='display:none;'":''; ?>>Edit</button>
           <button type="reset" class="btn btn-default" value="Reset">Reset</button>
           <input type="submit" class="btn btn-primary" name="final" value="Submit Form">
         </div>
