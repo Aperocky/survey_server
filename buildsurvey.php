@@ -7,7 +7,9 @@ if(is_post_request()){
   if(empty(trim($_POST["survey_name"]))){
     $survey_err = "Please enter a survey name.";
   } elseif(strlen(trim($_POST["survey_name"])) < 10) {
-    $survey_err = "Please enter a meaningful name longer than 10 letters.";
+    $survey_err = "Please enter a meaningful name with at least 10 letters.";
+  } elseif(strlen(trim($_POST["survey_name"])) > 30) {
+    $survey_err = "Please enter a name less than 30 letters";
   } elseif((strpos($_POST["survey_name"], "'") || strpos($_POST["survey_name"], '"')) !== False){
     $survey_err = "Please do not put apostrophe or quotes in survey names!";
   } else {
@@ -123,11 +125,13 @@ if(is_post_request()){
         <div class="form-group <?php echo (!empty($survey_err)) ? 'has-error' : '';?>">
           <label>New Survey Name</label>
           <input type="text" class="form-control" name="survey_name" placeholder="Enter name of the survey">
+          <small id="emailHelp" class="form-text text-muted">Please use at least 10 characters but no more than 30, with no apostrophe or quotes. Begin with a letter instead of numeric number.</small>
           <span class="help-block"><?php echo $survey_err; ?></span>
         </div>
         <div class="form-group <?php echo (!empty($describe_err)) ? 'has-error' : '';?>">
           <label>Purpose</label>
           <textarea class="form-control" rows="6" name="description" placeholder="Describe the purpose of this survey"></textarea>
+          <small id="emailHelp" class="form-text text-muted">This should be longer than a few words</small>
           <span class="help-block"><?php echo $describe_err; ?></span>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

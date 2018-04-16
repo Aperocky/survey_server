@@ -58,8 +58,12 @@ $replies = 0;
         <h3 class="text-center"> List of your surveys </h3>
         <?php while($row = $result->fetch_array()){
           $numquestion = count_row($row['survey_name']);
-          $survey_result = $row['survey_name'] . "_result";
-          $submissions = count_row($survey_result); ?>
+          if($row['status'] == 1){
+            $survey_result = $row['survey_name'] . "_result";
+            $submissions = count_row($survey_result);
+          } else {
+            $submissions = 0;
+          } ?>
           <div class="panel">
             <div class="panel-body">
               <div class="container">
@@ -75,7 +79,7 @@ $replies = 0;
                       <?php echo '#Question: ' . $numquestion; ?>
                     </h5>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-2">
                     <h5>
                       <?php echo '#Submissions: ' . $submissions;?>
                     </h5>
@@ -83,8 +87,24 @@ $replies = 0;
                   <div class="col-xs-1">
                     <a href="buildquestions.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default">Edit</a>
                   </div>
+                  <div class="col-xs-2">
+                    <a href="display.php?survey=<?php echo $row['survey_name']; ?>&view=1" class="btn btn-primary">View</a>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-xs-3">
+                    <a href="display.php?survey=<?php echo $row['survey_name']; ?>&view=0" class="btn btn-primary" <?php echo ($row['status']==0)?"disabled":''; ?>>Conduct Survey</a>
+                  </div>
                   <div class="col-xs-1">
-                    <a href="display.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default">View</a>
+                    <a href="share.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-default" <?php echo ($row['status']==0)?"disabled":''; ?>>Share</a>
+                  </div>
+                  <div class="col-xs-3"></div>
+                  <div class="col-xs-2">
+                    <a href="result.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-primary" <?php echo ($row['status']==0)?"disabled":''; ?>>See Result</a>
+                  </div>
+                  <div class="col-xs-2">
+                    <a href="download.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-primary" <?php echo ($row['status']==0)?"disabled":''; ?>>Download CSV</a>
                   </div>
                 </div>
               </div>

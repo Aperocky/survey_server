@@ -17,6 +17,11 @@ $result = $db->query($sql);
 if(!$result){
   exit("something went wrong, please contact Rocky.");
 }
+if(isset($_GET['view'])){
+  $view = $_GET['view'];
+} else {
+  $view = 1;
+}
 
 ?>
 
@@ -24,7 +29,7 @@ if(!$result){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title><?php echo $_SESSION['survey_long']; ?></title>
     <link rel="stylesheet" href="bootstrap.css">
     <link rel="shortcut icon" type="image/x-icon" href="hal.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,13 +65,31 @@ if(!$result){
       </nav>
 
       <!-- Main body of the survey -->
-      <form action="submitsurvey.php" method="post">
+      <form action="submitresult.php" method="post">
         <?php while($row = $result->fetch_assoc()){
           $curr_question = qfromfetch($row);
           $curr_question->display();
         }
         ?>
         <div class="form-group">
-          <button type="submit" class="btn btn-default"> Submit Survey</button>
+          <button type="submit" class="btn btn-default" <?php echo ($view == 1)? "style='display:none;'":''; ?>> Submit Survey</button>
         </div>
       </form>
+
+      <!-- Don't forget the footer -->
+      <footer class="page-footer">
+        <div class="emptyspace"></div>
+        <div class="row">
+          <div class="footer-copyright text-center col-xs-6">
+              © 2018 HAL:
+              <a href="https://hal.pratt.duke.edu"> HAL Lab </a>
+          </div>
+          <div class="footer-copyright text-center col-xs-6">
+              Creator:
+              <a href="https://www.aperocky.com"> Rocky Li </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+</body>
+</html>

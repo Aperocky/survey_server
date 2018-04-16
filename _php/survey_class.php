@@ -188,7 +188,7 @@ class Question{
         <?php } else { ?>
           <div class="form-group">
             <label>Answer</label>
-            <textarea class="form-control" rows="3" name="<?php echo $this->index; ?>answer"></textarea>
+            <textarea class="form-control" rows="3" name="<?php echo $this->index; ?>choice"></textarea>
           </div>
         <?php } ?>
       </div>
