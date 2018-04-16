@@ -8,6 +8,8 @@ if(is_post_request()){
     $survey_err = "Please enter a survey name.";
   } elseif(strlen(trim($_POST["survey_name"])) < 10) {
     $survey_err = "Please enter a meaningful name longer than 10 letters.";
+  } elseif((strpos($_POST["survey_name"], "'") || strpos($_POST["survey_name"], '"')) !== False){
+    $survey_err = "Please do not put apostrophe or quotes in survey names!";
   } else {
     $survey_long = trim($_POST["survey_name"]);
     $survey_name = preg_replace('/\s+/', '', $survey_long);

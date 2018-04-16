@@ -23,42 +23,67 @@ if(isset($_SESSION['survey'])){
 } else {
   redirect_to('buildsurvey.php');
 }
-// Total number of questions.
-$total_question = checklines();
 // If question index not set, set it to 1
 if(isset($_GET['question'])){
   $question_index = $_GET['question'];
-  if($question_index == 0){
-    $question_index = 1;
-  } else if ($question_index > $total_question + 1){
-    $question_index = $total_question + 1;
-  }
 } else {
   $question_index = 1;
 }
+// Total number of questions.
+if(table_exists($survey)){
+  $total_question = checklines();
+  $sql = "SELECT * FROM " . $db->real_escape_string($survey) . " WHERE id = ?";
+  $stmt = $db->prepare($sql);
+  if(!$stmt){
+    exit('Something is wrong, call Rocky to fix this.');
+  }
+  $stmt->bind_param('i', $question_index);
+  if($stmt->execute()){
+    // echo var_dump($stmt);
+    $result = $stmt->get_result();
+    // echo var_dump($result);
+    if($result->num_rows<1){
+      $new_question = True;
+      // echo 'success';
+    } else {
+      $new_question = False;
+      $question_set = $result->fetch_assoc();
+      // echo var_dump($question_set);
+    }
+  }
+} else {
+  $total_question = 1;
+  $new_question = True;
+}
+if($question_index == 0){
+  $question_index = 1;
+} else if ($question_index > $total_question + 1){
+  $question_index = $total_question + 1;
+}
+
 if(isset($_GET['edit'])){
   $edit = True;
 }
 // Find out if this question index has an existing question, if so, edit instead of new.
-$sql = "SELECT * FROM " . $db->real_escape_string($survey) . " WHERE id = ?";
-$stmt = $db->prepare($sql);
-if(!$stmt){
-  exit('Something is wrong, call Rocky to fix this.');
-}
-$stmt->bind_param('i', $question_index);
-if($stmt->execute()){
-  // echo var_dump($stmt);
-  $result = $stmt->get_result();
-  // echo var_dump($result);
-  if($result->num_rows<1){
-    $new_question = True;
-    // echo 'success';
-  } else {
-    $new_question = False;
-    $question_set = $result->fetch_assoc();
-    // echo var_dump($question_set);
-  }
-}
+// $sql = "SELECT * FROM " . $db->real_escape_string($survey) . " WHERE id = ?";
+// $stmt = $db->prepare($sql);
+// if(!$stmt){
+//   exit('Something is wrong, call Rocky to fix this.');
+// }
+// $stmt->bind_param('i', $question_index);
+// if($stmt->execute()){
+//   // echo var_dump($stmt);
+//   $result = $stmt->get_result();
+//   // echo var_dump($result);
+//   if($result->num_rows<1){
+//     $new_question = True;
+//     // echo 'success';
+//   } else {
+//     $new_question = False;
+//     $question_set = $result->fetch_assoc();
+//     // echo var_dump($question_set);
+//   }
+// }
 // If not new question, set up the prior questions.
 if(!$new_question){
   try{

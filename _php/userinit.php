@@ -18,7 +18,7 @@ if(isset($_GET['logout'])){
 function checklines(){
   global $db;
   global $survey;
-  $sql = "SELECT count(1) FROM $survey";
+  $sql = "SELECT count(1) FROM " . $db->real_escape_string($survey);
   $res = $db->query($sql);
   $res = $res->fetch_assoc();
   $lines = $res['count(1)'];

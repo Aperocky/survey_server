@@ -12,6 +12,18 @@
     return $total;
   }
 
+  // See if table exists
+  function table_exists($table){
+    global $db;
+    $sql = "SHOW TABLES LIKE '" . $db->real_escape_string($table) . "'";
+    if($result=$db->query($sql)){
+      if($result->num_rows == 1){
+        return True;
+      }
+    }
+    return False;
+  }
+
   // Get the last row of the database
   function get_last_element(){
     global $db;
