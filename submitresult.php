@@ -31,14 +31,19 @@ $sql = "INSERT INTO " . $db->real_escape_string($survey_result) . " (";
 $indexstr = $answerstr = "";
 foreach($choicelist as $qindex => $qanswer){
   $indexstr .= $qindex . ", ";
-  $answerstr .= $qanswer . ", ";
+  $answerstr .= "'" . $db->real_escape_string($qanswer) . "', ";
 }
-echo $indexstr;
-$indexstr = rtrim($indexstr, ",");
-echo $indexstr;
-$answerstr = rtrim($answerstr, ",");
+$indexstr = rtrim($indexstr, ", ");
+$answerstr = rtrim($answerstr, ", ");
 $sql .= $indexstr . ") VALUES (";
 $sql .= $answerstr . ")";
 echo $sql;
+
+if($db->query($sql)){
+  echo "It works!";
+  redirect_to('dashboard.php');
+} else {
+  exit("Something is wrong, please call Rocky to fix this.");
+}
 
 ?>
