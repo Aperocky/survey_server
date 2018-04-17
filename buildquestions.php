@@ -106,7 +106,7 @@ if(!$new_question){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Build New Survey</title>
+    <title><?php echo ($new_question)? "Build New":"Edit"; ?> Survey</title>
     <link rel="stylesheet" href="bootstrap.css">
     <link rel="shortcut icon" type="image/x-icon" href="hal.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -250,10 +250,11 @@ if(!$new_question){
           <input type="hidden" type="text" name="edit" value="<?php echo ($new_question)?'0':'1'; ?>">
         </div>
         <div>
-          <button type="submit" class="btn btn-primary" <?php echo ($new_question)? '':"style='display:none;'"; ?>>Submit</button>
+          <button type="submit" class="btn btn-primary" <?php echo ($new_question)? '':"style='display:none;'"; ?>>Submit Question</button>
           <button type="submit" class="btn btn-primary" <?php echo ($new_question)? "style='display:none;'":''; ?>>Edit</button>
           <button type="reset" class="btn btn-default" value="Reset">Reset</button>
           <input type="submit" class="btn btn-primary" name="final" value="Submit Form">
+          <a type="button" class="btn btn-default" style="float:right;" href="dashboard.php" title="Your progress will be saved!">Leave</a>
         </div>
       </form>
     </div>

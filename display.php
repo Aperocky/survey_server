@@ -73,6 +73,7 @@ if(isset($_GET['view'])){
         ?>
         <div class="form-group">
           <button type="submit" class="btn btn-default" <?php echo ($view == 1)? "style='display:none;'":''; ?>> Submit Survey</button>
+          <a type="button" class="btn btn-default" style="float:right;" href="dashboard.php" title="Leave without submitting">Leave</a>
         </div>
       </form>
 
