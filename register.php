@@ -62,10 +62,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            echo $param_password;
+            // echo $param_password;
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Redirect to login page
+                $sql = "INSERT INTO survey (survey_name, username, description, status, long_name) VALUES ('DefaultSurvey', ?, 'This is the default survey upon registration.', 1, 'Default Survey')";
+                $nstmt = $db->prepare($sql);
+                $nstmt->bind_param("s", $param_username);
+                $nstmt->execute();
                 redirect_to("login.php");
             } else{
                 echo $stmt->error;
