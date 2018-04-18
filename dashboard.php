@@ -104,7 +104,7 @@ $replies = 0;
                     <a href="result.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-primary" <?php echo ($row['status']==0)?"disabled":''; ?>>See Result</a>
                   </div>
                   <div class="col-xs-2">
-                    <a href="download.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-primary" <?php echo ($row['status']==0)?"disabled":''; ?>>Download CSV</a>
+                    <a href="downloadcsv.php?survey=<?php echo $row['survey_name']; ?>" class="btn btn-primary" <?php echo ($row['status']==0)?"disabled":''; ?>>Download CSV</a>
                   </div>
                 </div>
               </div>
