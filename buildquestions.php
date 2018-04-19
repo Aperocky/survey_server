@@ -5,6 +5,7 @@ $edit = False;
 $question = "";
 $type = "1";
 $numquestion = "2";
+$continue = $deleted = 0;
 $mc1 = $mc2 = $mc3 = $mc4 = $mc5 = $mc6 = "";
 
 $new_question = False;
@@ -96,6 +97,8 @@ if(!$new_question){
     $mc4 = $question_set['mc4'];
     $mc5 = $question_set['mc5'];
     $mc6 = $question_set['mc6'];
+    $continue = $question_set['cont'];
+    $deleted = $question_set['status'];
   } catch (Exception $e){
     echo $e->getMessage();
   }
@@ -170,6 +173,21 @@ if(!$new_question){
             <div class="panel-body">
               <label>Type in your Question</label>
               <textarea class="form-control" rows="6" name="description"><?php echo $question; ?></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- This is the deciding part of the question, with continue and delete -->
+        <div class="form-group">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-6">
+                <input class="form-check-input" type="checkbox" name="cont" value="1" <?php echo ($continue == 1)? 'checked':'';?>>
+                <label class="form-check-label">Check if this is a continuation of the previous question</label>
+              </div>
+              <div class="col-xs-6">
+                <input class="form-check-input" type="checkbox" name="status" value="1" <?php echo ($deleted == 1)? 'checked':'';?>>
+                <label class="form-check-label">Check if you want this question NOT show up (delete)</label>
+              </div>
             </div>
           </div>
         </div>

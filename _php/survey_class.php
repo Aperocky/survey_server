@@ -52,11 +52,13 @@ class Question{
   public $choicelist;
 
   // Construct a Question object per request page
-  public function __construct($survey, $index, $type, $question, $num = 0, $mc){
+  public function __construct($survey, $index, $type, $question, $num = 0, $mc, $continue = 0, $deleted = 0){
     $this->survey = $survey;
     $this->index = $index;
     $this->question = $question;
     $this->type = $type;
+    $this->continue = $continue;
+    $this->deleted = $deleted;
     if($this->type != 2){
       $this->num = $num;
       $this->choicelist = $mc;
@@ -104,11 +106,11 @@ class Question{
       $stmt->execute();
     } else {
       $sql = "INSERT INTO " . $db->real_escape_string($survey) . " (";
-      $sql .= "question, type, numquestion, mc1, mc2, mc3, mc4, mc5, mc6)";
-      $sql .= " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $sql .= "question, type, numquestion, mc1, mc2, mc3, mc4, mc5, mc6, cont, status)";
+      $sql .= " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       $stmt = $db->prepare($sql);
       $mc = $this->choicelist;
-      $stmt->bind_param("siissssss", $this->question, $this->type, $this->num, $mc[0], $mc[1], $mc[2], $mc[3], $mc[4], $mc[5]);
+      $stmt->bind_param("siissssssii", $this->question, $this->type, $this->num, $mc[0], $mc[1], $mc[2], $mc[3], $mc[4], $mc[5], $continue, $deleted);
       $stmt->execute();
     }
   }
@@ -117,11 +119,11 @@ class Question{
     global $db;
     global $survey;
     $sql = "UPDATE " . $db->real_escape_string($survey);
-    $sql .= " SET question = ?, type = ?, numquestion = ?, mc1 = ?, mc2 = ?, mc3 = ?, mc4 = ?, mc5 = ?, mc6 = ? WHERE id = ?";
+    $sql .= " SET question = ?, type = ?, numquestion = ?, mc1 = ?, mc2 = ?, mc3 = ?, mc4 = ?, mc5 = ?, mc6 = ?, cont = ?, status = ? WHERE id = ?";
     echo $sql;
     $stmt = $db->prepare($sql);
     $mc = $this->choicelist;
-    $stmt->bind_param("siissssssi", $this->question, $this->type, $this->num, $mc[0], $mc[1], $mc[2], $mc[3], $mc[4], $mc[5], $this->index);
+    $stmt->bind_param("siissssssiii", $this->question, $this->type, $this->num, $mc[0], $mc[1], $mc[2], $mc[3], $mc[4], $mc[5], $this->continue, $this->deleted, $this->index);
     $stmt->execute();
   }
 

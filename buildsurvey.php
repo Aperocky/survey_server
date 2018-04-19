@@ -8,8 +8,8 @@ if(is_post_request()){
     $survey_err = "Please enter a survey name.";
   } elseif(strlen(trim($_POST["survey_name"])) < 10) {
     $survey_err = "Please enter a meaningful name with at least 10 letters.";
-  } elseif(strlen(trim($_POST["survey_name"])) > 30) {
-    $survey_err = "Please enter a name less than 30 letters";
+  } elseif(strlen(trim($_POST["survey_name"])) > 50) {
+    $survey_err = "Please enter a name less than 50 letters";
   } elseif((strpos($_POST["survey_name"], "'") || strpos($_POST["survey_name"], '"')) !== False){
     $survey_err = "Please do not put apostrophe or quotes in survey names!";
   } else {
@@ -56,7 +56,10 @@ if(is_post_request()){
     $sql .= "mc4 VARCHAR(255), ";
     $sql .= "mc5 VARCHAR(255), ";
     $sql .= "mc6 VARCHAR(255), ";
+    $sql .= "cont TINYINT(1) DEFAULT 0, ";
+    $sql .= "status TINYINT(1) DEFAULT 0, ";
     $sql .= "PRIMARY KEY (id)) ";
+    echo $sql;
     $result = $db->query($sql);
     return $result;
   }
@@ -70,7 +73,7 @@ if(is_post_request()){
       setup();
       $_SESSION['survey'] = $survey;
       $_SESSION['survey_long'] = $survey_long;
-      redirect_to('buildquestions.php?question=1');
+      // redirect_to('buildquestions.php?question=1');
     } else {
       echo "Something is wrong, please call Rocky to fix this.";
     }

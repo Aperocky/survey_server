@@ -27,8 +27,19 @@ try{
 } catch(Exception $e){
   echo ($e->getMessage());
 }
+// Continue and deleted is not necessarily set.
+if(isset($_POST['cont'])){
+  $continue = 1;
+} else {
+  $continue = 0;
+}
+if(isset($_POST['status'])){
+  $deleted = 1;
+} else {
+  $deleted = 0;
+}
 $mc = array($mc1, $mc2, $mc3, $mc4, $mc5, $mc6);
-$curr_question = new Question($survey, $index, $type, $question, $numquestion, $mc);
+$curr_question = new Question($survey, $index, $type, $question, $numquestion, $mc, $continue, $deleted);
 if($_POST['edit']==1){
   $curr_question->update();
 } else {
@@ -36,7 +47,7 @@ if($_POST['edit']==1){
 }
 // $curr_question->store();
 $nextindex = $index + 1;
-create_result_table();
+// create_result_table();
 if(!isset($_POST['final'])){
   redirect_to("buildquestions.php?question=$nextindex");
 } else {
