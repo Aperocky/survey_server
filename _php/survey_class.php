@@ -129,7 +129,7 @@ class Question{
     $stmt->execute();
   }
 
-  public function display($index){
+  public function display($index, $display_index=False){
     if($this->deleted == 1){
       return $index;
     }
@@ -143,7 +143,9 @@ class Question{
       <div class="panel-body">
         <?php if($this->continue == 0){ ?>
         <p>
-          <?php echo $index . ". " . $this->question; ?>
+          <?php
+            if($display_index){ echo $index . ". "; }
+             echo $this->question; ?>
         </p>
       <?php $index += 1; } ?>
         <?php if($this->type == 3){ ?>
