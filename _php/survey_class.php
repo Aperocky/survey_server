@@ -177,11 +177,11 @@ class Question{
           </div>
         <?php } elseif ($this->type == 1) { ?>
           <div class="form-group">
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" <?php echo ($this->num < 1)? "style='display:none;'":''; ?>>
               <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="A">
               <label class="form-check-label"><?php echo $this->choicelist[0]; ?></label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" <?php echo ($this->num < 2)? "style='display:none;'":''; ?>>
               <input class="form-check-input" type="radio" name="<?php echo $this->index; ?>choice[]" value="B">
               <label class="form-check-label"><?php echo $this->choicelist[1]; ?></label>
             </div>

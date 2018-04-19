@@ -40,6 +40,9 @@ $(function(ready){
       $('.input3').show();
       $('.input4').show();
       $('.input5').show();
+    } else {
+      // console.log("I should happen");
+      $('.choiceoption').hide();
     }
   })
 });

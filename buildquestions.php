@@ -217,6 +217,7 @@ if(!$new_question){
             <div class="panel-body">
               <label for="numquestion">Select number of options</label>
               <select class="form-control" name="numquestion" id="numquestion">
+                <option value="0" <?php echo ($numquestion == '0')? 'selected' : ''; ?>>0</option>
                 <option value="2" <?php echo ($numquestion == '2')? 'selected' : ''; ?>>2</option>
                 <option value="3" <?php echo ($numquestion == '3')? 'selected' : ''; ?>>3</option>
                 <option value="4" <?php echo ($numquestion == '4')? 'selected' : ''; ?>>4</option>
@@ -226,7 +227,7 @@ if(!$new_question){
             </div>
           </div>
         </div>
-        <div class="form-group multichoice" <?php echo ($type=='2')?"style='display:none'":''; ?>>
+        <div class="form-group multichoice choiceoption" <?php echo ($type=='2')?"style='display:none'":''; ?>>
           <div class="panel">
             <div class="panel-body">
               <p>
