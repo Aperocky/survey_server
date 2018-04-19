@@ -22,6 +22,7 @@ if(isset($_GET['view'])){
 } else {
   $view = 1;
 }
+$index = 1;
 
 ?>
 
@@ -68,9 +69,10 @@ if(isset($_GET['view'])){
       <form action="submitresult.php" method="post">
         <?php while($row = $result->fetch_assoc()){
           $curr_question = qfromfetch($row);
-          $curr_question->display();
+          $index = $curr_question->display($index);
         }
         ?>
+      </div>
         <div class="form-group">
           <button type="submit" class="btn btn-default" <?php echo ($view == 1)? "style='display:none;'":''; ?>> Submit Survey</button>
           <a type="button" class="btn btn-default" style="float:right;" href="dashboard.php" title="Leave without submitting">Leave</a>

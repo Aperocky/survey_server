@@ -2,7 +2,9 @@
 // Build a Question object from a single line of mysql query.
 function qfromfetch($row){
   $mc = array($row['mc1'], $row['mc2'], $row['mc3'], $row['mc4'], $row['mc5'], $row['mc6']);
-  $curr_question = new Question($_SESSION['survey'], $row['id'], $row['type'], $row['question'], $row['numquestion'], $mc);
+  $continue = $row['cont'];
+  $deleted = $row['status'];
+  $curr_question = new Question($_SESSION['survey'], $row['id'], $row['type'], $row['question'], $row['numquestion'], $mc, $continue, $deleted);
   return $curr_question;
 }
 
@@ -127,12 +129,23 @@ class Question{
     $stmt->execute();
   }
 
-  public function display(){ ?>
+  public function display($index){
+    if($this->deleted == 1){
+      return $index;
+    }
+    if($this->index == 1){ ?>
     <div class="panel panel-default">
+    <?php }
+    if($this->continue == 0){ ?>
+    </div>
+    <div class="panel panel-default">
+    <?php } ?>
       <div class="panel-body">
+        <?php if($this->continue == 0){ ?>
         <p>
-          <?php echo $this->index . ". " . $this->question; ?>
+          <?php echo $index . ". " . $this->question; ?>
         </p>
+      <?php $index += 1; } ?>
         <?php if($this->type == 3){ ?>
           <div class="form-group">
             <div class="form-check form-check-inline">
@@ -194,7 +207,8 @@ class Question{
           </div>
         <?php } ?>
       </div>
-    </div>
+      <?php return $index; ?>
+    <!-- </div> -->
 
 
   <?php }
